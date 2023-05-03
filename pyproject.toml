@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "mms-nirs"
+version = "0.1.0"
+description = "Algorithms used in the multimodal spectroscopy group to process NIRS data"
+authors = ["Josh Buckland, <joshua.russell-buckland@ucl.ac.uk>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "mms_nirs" }]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+numpy = "^1.24.3"
+scipy = "^1.10.1"
+pandas = "^2.0.1"
+pyarrow = "^12.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.3.1"
+black = "^23.3.0"
+poetry2setup = "^1.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests", # You should have a "tests" directory
+]
+pythonpath = ["."]
+
+[tool.black]
+line-length = 80
