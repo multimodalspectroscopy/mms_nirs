@@ -87,8 +87,6 @@ class UCLN:
             self.constants.extinction_coefficients
         )
 
-        print(ext_coeffs_inv.shape)
-
         optode_dist = self.constants.optode_dist
         dpf = self.constants.dpf
 

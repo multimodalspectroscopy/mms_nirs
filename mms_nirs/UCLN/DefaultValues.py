@@ -20,3 +20,4 @@ class DefaultValues:
         self.extinction_coefficients = df[species].values
         self.wavelength_dependency = np.array(df["wl_dep"].values)
         self.spectra_wavelengths = np.array(df.index.values)
+        self.spectra_wavelengths = df.index.values
