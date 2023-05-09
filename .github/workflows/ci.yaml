@@ -54,14 +54,6 @@ jobs:
       - name: Install project
         run: poetry install --no-interaction
       #----------------------------------------------
-      #              run test suite
-      #----------------------------------------------
-      - name: Run tests
-        run: |
-          source .venv/bin/activate
-          pytest tests/
-          coverage report
-      #----------------------------------------------
       #              run typechecking
       #----------------------------------------------
       - name: Run type checking
@@ -75,4 +67,12 @@ jobs:
         run: |
           source .venv/bin/activate
           black mms_nirs/
+      #----------------------------------------------
+      #              run test suite
+      #----------------------------------------------
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          pytest tests/
+          coverage report
         
