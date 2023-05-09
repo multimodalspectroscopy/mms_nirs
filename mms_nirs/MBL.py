@@ -1,4 +1,4 @@
-from typing import Literal, Optional, Self, TypedDict, Tuple
+from typing import Literal, Optional, TypedDict, Tuple
 import numpy as np
 from numpy.linalg import pinv
 from scipy.interpolate import interp1d
@@ -55,7 +55,7 @@ class MBL:
 
     def _calc_change_in_attenuation(
         self, spectra: np.ndarray, spectra_wavelengths: np.ndarray
-    ) -> Self:
+    ):
         n_spectra = spectra.shape[0]
         attenuation: np.ndarray = np.zeros(spectra.shape)
         attenuation_interp: np.ndarray = np.zeros(
@@ -63,9 +63,7 @@ class MBL:
         )
 
         for i in range(n_spectra):
-            attenuation[i, :]: np.ndarray = np.log10(
-                spectra[0, :] / spectra[i, :]
-            )
+            attenuation[i, :] = np.log10(spectra[0, :] / spectra[i, :])
             attenuation_interp[:, i] = interp1d(
                 spectra_wavelengths,
                 attenuation[i, :].T,
@@ -78,7 +76,7 @@ class MBL:
 
     def calc_concentrations(
         self, spectra: np.ndarray, spectra_wavelengths: np.ndarray
-    ) -> np.ndarray:
+    ) -> Optional[np.ndarray]:
         # Calculate change in attenuation
         self._calc_change_in_attenuation(spectra, spectra_wavelengths)
 
@@ -89,10 +87,13 @@ class MBL:
         optode_dist = self.constants.optode_dist
         dpf = self.constants.dpf
 
-        return np.transpose(
-            np.matmul(
-                ext_coeffs_inv,
-                self.attenuation_interp_wavelength_dependency.T,
+        if self.attenuation_interp_wavelength_dependency is not None:
+            return np.transpose(
+                np.matmul(
+                    ext_coeffs_inv,
+                    self.attenuation_interp_wavelength_dependency.T,
+                )
+                * (1 / (optode_dist * dpf))
             )
-            * (1 / (optode_dist * dpf))
-        )
+        else:
+            return None
