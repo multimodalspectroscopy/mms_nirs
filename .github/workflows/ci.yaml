@@ -68,7 +68,6 @@ jobs:
         run: |
           source .venv/bin/activate
           pyright mms_nirs/
-          coverage report
       #----------------------------------------------
       #              run linter
       #----------------------------------------------
