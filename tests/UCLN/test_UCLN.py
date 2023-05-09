@@ -58,8 +58,8 @@ def ucln_constants(
     extinction_coefficients, wavelength_dependency
 ) -> UCLNConstants:
     return UCLNConstants(
-        extinction_coefficients,
-        wavelength_dependency,
+        extinction_coefficients=extinction_coefficients,
+        wavelength_dependency_of_pathlength=wavelength_dependency,
         optode_dist=3,
         dpf_type="baby_head",
         wavelengths=(780, 900),
