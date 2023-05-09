@@ -1,12 +1,13 @@
 from typing import List
 import pandas as pd
+import os
 import numpy as np
 
 
 class DefaultValues:
     def __init__(
         self,
-        csv_file: str = "./defaults.csv",
+        csv_file: str = os.path.dirname(__file__) + "/defaults.csv",
         species: List[str] = ["HbO2", "HHb", "CCO"],
     ) -> None:
         df: pd.DataFrame = pd.read_csv(

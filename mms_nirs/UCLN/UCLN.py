@@ -1,6 +1,6 @@
 from typing import Literal, Optional, TypedDict, Tuple
 import numpy as np
-from numpy.linalg import pinv
+from numpy import linalg
 from scipy.interpolate import interp1d
 
 
@@ -14,7 +14,7 @@ class DifferentialPathlengthFactors(TypedDict):
 DpfType = Literal["baby_head", "adult_head", "adult_arm", "adult_leg"]
 
 
-class MBLConstants:
+class UCLNConstants:
     """Class for holding MBL constants"""
 
     # Differential path length factors based on Dunan 1994
@@ -44,18 +44,19 @@ class MBLConstants:
         )
 
 
-class MBL:
+class UCLN:
     """Class for calculating conc. using the Modified Beer-Lambert Law"""
 
-    def __init__(self, constants: MBLConstants) -> None:
-        self.constants: MBLConstants = constants
+    def __init__(self, constants: UCLNConstants) -> None:
+        self.constants: UCLNConstants = constants
         self.attenuation_interp_wavelength_dependency: Optional[
             np.ndarray
         ] = None
 
     def _calc_change_in_attenuation(
         self, spectra: np.ndarray, spectra_wavelengths: np.ndarray
-    ):
+    ) -> None:
+        # Preallocate arrays
         n_spectra = spectra.shape[0]
         attenuation: np.ndarray = np.zeros(spectra.shape)
         attenuation_interp: np.ndarray = np.zeros(
@@ -80,10 +81,14 @@ class MBL:
         # Calculate change in attenuation
         self._calc_change_in_attenuation(spectra, spectra_wavelengths)
 
-        # Calculate concentration of species
-        ext_coeffs_inv: np.ndarray = pinv(
+        # Note: The inverse of the matrix isn't unique meaning these differ
+        # from the MATLAB equivalents
+        ext_coeffs_inv: np.ndarray = linalg.pinv(
             self.constants.extinction_coefficients
         )
+
+        print(ext_coeffs_inv.shape)
+
         optode_dist = self.constants.optode_dist
         dpf = self.constants.dpf
 
