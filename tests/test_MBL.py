@@ -75,8 +75,6 @@ def test_calculate_concentrations(
 
     conc = mbl.calc_concentrations(spectra, spectra_wavelengths)
 
-    print(conc)
-
     true_conc: np.ndarray = np.array(
         [
             [0, 0, 0],
@@ -87,4 +85,5 @@ def test_calculate_concentrations(
         ]
     )
 
+    assert conc is not None, "Calculated concentration returned None"
     npt.assert_almost_equal(true_conc, conc)
