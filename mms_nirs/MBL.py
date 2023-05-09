@@ -87,7 +87,7 @@ class MBL:
         optode_dist = self.constants.optode_dist
         dpf = self.constants.dpf
 
-        if self.attenuation_interp_wavelength_dependency:
+        if self.attenuation_interp_wavelength_dependency is not None:
             return np.transpose(
                 np.matmul(
                     ext_coeffs_inv,
