@@ -1,4 +1,5 @@
-from typing import Literal, Optional, TypedDict, Tuple
+from typing import Literal, Optional, Tuple, TypedDict
+
 import numpy as np
 from numpy import linalg
 from scipy.interpolate import interp1d
@@ -31,7 +32,7 @@ class UCLNConstants:
         wavelength_dependency_of_pathlength: np.ndarray,
         optode_dist: float,
         dpf_type: DpfType,
-        wavelengths: Tuple[int, int],
+        wavelengths: Tuple[float, float],
     ) -> None:
         self.extinction_coefficients = extinction_coefficients
         self.wavelength_dependency = wavelength_dependency_of_pathlength
