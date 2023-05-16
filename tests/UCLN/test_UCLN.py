@@ -1,9 +1,10 @@
-import pytest
-from mms_nirs.UCLN import UCLN, UCLNConstants
-from mms_nirs.UCLN import DefaultValues
-import numpy as np
-from numpy import testing as npt
 import os
+
+import numpy as np
+import pytest
+from numpy import testing as npt
+
+from mms_nirs.UCLN import UCLN, DefaultValues, UCLNConstants
 
 TEST_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
@@ -62,7 +63,7 @@ def ucln_constants(
         wavelength_dependency_of_pathlength=wavelength_dependency,
         optode_dist=3,
         dpf_type="baby_head",
-        wavelengths=(780, 900),
+        wavelengths=(780.0, 900.0),
     )
 
 
