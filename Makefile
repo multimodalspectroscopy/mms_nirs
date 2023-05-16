@@ -8,7 +8,9 @@ version:
 	@poetry version
 
 publish-test:
+	@poetry build
 	@poetry publish -r test-pypi
 
 publish-prod:
+	@poetry build
 	@poetry publish
