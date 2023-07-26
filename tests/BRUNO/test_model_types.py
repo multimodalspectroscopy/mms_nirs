@@ -20,7 +20,7 @@ class TestExtrapolatedBoundaryConditions:
         npt.assert_almost_equal(actual, expected)
 
     def test_attenuation(self):
-        expected: ndarray[Any, dtype[Any]] = np.array([4.8558, 7.0464, 9.2593])
+        expected = np.array([4.8558, 7.0464, 9.2593])
         actual = ExtrapolatedBoundaryConditions.attenuation()(mu_s, mu_a, rho)
         npt.assert_almost_equal(actual, expected, decimal=4)
 
