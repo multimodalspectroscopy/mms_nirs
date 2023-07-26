@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -6,9 +6,9 @@ from numpy import testing as npt
 
 from mms_nirs.UCLN import UCLN, DefaultValues, UCLNConstants
 
-TEST_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+TEST_DIR = Path(__file__).parent / "test_data"
 
-ROOT_DIR = os.path.dirname(TEST_DIR)
+ROOT_DIR = TEST_DIR.parent
 
 
 @pytest.fixture
@@ -33,7 +33,7 @@ def wavelength_dependency(defaults: DefaultValues) -> np.ndarray:
 @pytest.fixture
 def spectra_wavelengths() -> np.ndarray:
     spectra_wavelengths: np.ndarray = np.genfromtxt(
-        fname=TEST_DIR + "/test_data/UCLN/wavelengths.csv", delimiter=","
+        fname=TEST_DIR / "wavelengths.csv", delimiter=","
     )
     return spectra_wavelengths
 
@@ -41,7 +41,7 @@ def spectra_wavelengths() -> np.ndarray:
 @pytest.fixture
 def spectra() -> np.ndarray:
     spectra: np.ndarray = np.genfromtxt(
-        fname=TEST_DIR + "/test_data/UCLN/test_spectra.csv", delimiter=","
+        fname=TEST_DIR / "test_spectra.csv", delimiter=","
     )
     return spectra
 
@@ -49,7 +49,7 @@ def spectra() -> np.ndarray:
 @pytest.fixture
 def true_conc() -> np.ndarray:
     conc: np.ndarray = np.genfromtxt(
-        fname=TEST_DIR + "/test_data/UCLN/test_conc.csv", delimiter=","
+        fname=TEST_DIR / "test_conc.csv", delimiter=","
     )
     return conc
 
