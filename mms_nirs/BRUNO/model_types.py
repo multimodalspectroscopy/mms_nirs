@@ -6,9 +6,7 @@ from sympy import lambdify
 def zbc_reflectance(mu_s, mu_a, rho):
     z0 = 1 / mu_s
     mueff = sympy.sqrt(3 * mu_a * mu_s)
-    return (z0 * mueff * sympy.exp(-1 * mueff * rho)) / (
-        2 * sympy.pi * rho**2
-    )
+    return (z0 * mueff * sympy.exp(-mueff * rho)) / (2 * sympy.pi * rho**2)
 
 
 def zbc_attenuation(mu_s, mu_a, rho):
@@ -16,7 +14,7 @@ def zbc_attenuation(mu_s, mu_a, rho):
     mueff = sympy.sqrt(3 * mu_a * mu_s)
     return (
         (mueff * rho)
-        + (2 * sympy.log(rho))
+        + (2.0 * sympy.log(rho))  # type: ignore
         - sympy.log((z0 * mueff) / (2 * sympy.pi))
     ) / sympy.log(10)
 
@@ -87,17 +85,19 @@ def ebc_reflectance(mu_s, mu_a, rho):
         / (4 * sympy.pi)
         * (
             z0
-            * (mueff + 1 / sympy.sqrt(r1sq))
-            * (sympy.exp(-mueff * sympy.sqrt(r1sq)) / r1sq)
+            * (mueff + 1.0 / sympy.sqrt(r1sq))  # type: ignore
+            * (sympy.exp(-mueff * sympy.sqrt(r1sq)) / r1sq)  # type: ignore
             + (z0 + 2 * zb)
-            * (mueff + 1 / sympy.sqrt(r2))
-            * (sympy.exp(-mueff * sympy.sqrt(r2)) / r2)
+            * (mueff + 1.0 / sympy.sqrt(r2))  # type: ignore
+            * (sympy.exp(-mueff * sympy.sqrt(r2)) / r2)  # type: ignore
         )
     )
 
 
 def ebc_attenuation(mu_s, mu_a, rho):
-    return -1 * sympy.log(ebc_reflectance(mu_s, mu_a, rho), 10)
+    return -1.0 * sympy.log(
+        ebc_reflectance(mu_s, mu_a, rho), 10
+    )  # type: ignore
 
 
 def ebc_attenuation_slope_short_separation(mu_s, mu_a, rho):
@@ -107,7 +107,9 @@ def ebc_attenuation_slope_short_separation(mu_s, mu_a, rho):
 def ebc_attenuation_slope_long_separation(mu_s, mu_a, d_s, d_l):
     return (
         ebc_attenuation(mu_s, mu_a, d_l) - ebc_attenuation(mu_s, mu_a, d_s)
-    ) / (d_l - d_s)
+    ) / (
+        d_l - d_s
+    )  # type: ignore
 
 
 # ~~~~~~~~~~~~~ End unresolve symbolic equations ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
