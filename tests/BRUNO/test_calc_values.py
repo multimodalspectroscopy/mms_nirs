@@ -69,6 +69,8 @@ class TestCalcValues:
             ]
         )
 
+        expected_score = 0.15233402419854875
+
         (
             stO2,
             coefficients,
@@ -84,6 +86,7 @@ class TestCalcValues:
             coefficients, expected_coefficients, decimal=5.0
         )
         npt.assert_approx_equal(stO2, expected_stO2)
+        npt.assert_approx_equal(score, expected_score)
 
     def test_produces_correct_value_for_far_separation_ZBC(
         self, function_arguments
@@ -98,6 +101,7 @@ class TestCalcValues:
                 2.555661423244912,
             ]
         )
+        expected_score = 33.85892581587063
 
         (
             stO2,
@@ -115,6 +119,7 @@ class TestCalcValues:
             coefficients, expected_coefficients, decimal=5.0
         )
         npt.assert_approx_equal(stO2, expected_stO2)
+        npt.assert_approx_equal(score, expected_score)
 
     # We set the precision slightly lower on these ones as the EBC algo
     # differs ever so slightly in return value between Matlab and Scipy
@@ -132,6 +137,8 @@ class TestCalcValues:
             ]
         )
 
+        expected_score = 0.27953102851704975
+
         (
             stO2,
             coefficients,
@@ -147,6 +154,7 @@ class TestCalcValues:
             coefficients, expected_coefficients, decimal=4.0
         )
         npt.assert_approx_equal(stO2, expected_stO2)
+        npt.assert_approx_equal(score, expected_score)
 
     def test_produces_correct_value_for_far_separation_EBC(
         self, function_arguments
@@ -161,6 +169,8 @@ class TestCalcValues:
                 1.968340719908830,
             ]
         )
+
+        expected_score = 57.2088269575511
 
         (
             stO2,
@@ -178,3 +188,4 @@ class TestCalcValues:
             coefficients, expected_coefficients, decimal=4.0
         )
         npt.assert_approx_equal(stO2, expected_stO2)
+        npt.assert_approx_equal(score, expected_score)
