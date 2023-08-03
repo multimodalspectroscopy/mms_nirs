@@ -11,10 +11,17 @@ from .derivative_fit import (
 from .fminsearchbnd import fminsearchbnd
 
 
-def smooth(a, span):
-    # a: NumPy 1-D array containing the data to be smoothed
-    # WSZ: smoothing window size needs, which must be odd number,
-    # as in the original MATLAB implementation
+def smooth(a: np.ndarray, span: int) -> np.ndarray:
+    """MATLAB Smooth function clone
+
+    Args:
+        a (np.ndarray): Numpy array of data to smooth
+        span (int): Size of smoothing window. Must be an odd number
+
+    Returns:
+        np.ndarray: Smoothed data
+    """
+
     out0 = np.convolve(a, np.ones(span, dtype=int), "valid") / span
     r = np.arange(1, span - 1, 2)
     start = np.cumsum(a[: span - 1])[::2] / r
@@ -91,26 +98,43 @@ def calc_values(
 
     stO2 = coefficients[2] / (coefficients[1] + coefficients[2]) * 100
 
+    # Determine the score of the fit
+
     residual = (model_1stdiff - slope_1stdiff) ** 2
-    residual_norm = (
-        model_1stdiff / np.max(model_1stdiff)
-        - slope_1stdiff / np.max(model_1stdiff)
-    ) ** 2
     sum_residual = np.sum(residual)
 
+    # Indicies of values to determine range between
+    index_710 = np.where(wavelengths == 710)[0][0]
+    index_900 = np.where(wavelengths == 900)[0][0]
+
+    # Indices of HHb wavelengths
     index_HHb = np.arange(
         np.where(wavelengths == 750)[0][0],
         np.where(wavelengths == 770)[0][0] + 1,
     )
+
+    # Indices of H2O wavelengths
     index_water = np.arange(
         np.where(wavelengths == 825)[0][0],
         np.where(wavelengths == 840)[0][0] + 1,
     )
+
+    residual_norm = (
+        model_1stdiff / np.max(model_1stdiff)
+        - slope_1stdiff / np.max(model_1stdiff)
+    ) ** 2
+
     sum_hhb_residuals = np.sum(residual_norm[index_HHb])
     sum_water_residuals = np.sum(residual_norm[index_water])
+
     model_range = np.max(
-        model_1stdiff[6:197] / np.max(model_1stdiff[6:197])
-    ) - np.min(model_1stdiff[6:197] / np.max(model_1stdiff[6:197]))
+        model_1stdiff[index_710:index_900]
+        / np.max(model_1stdiff[index_710:index_900])
+    ) - np.min(
+        model_1stdiff[index_710:index_900]
+        / np.max(model_1stdiff[index_710:index_900])
+    )
+
     score = sum_hhb_residuals * sum_water_residuals / model_range
 
     return stO2, coefficients, residual, residual_norm, sum_residual, score
