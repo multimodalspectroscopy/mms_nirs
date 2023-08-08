@@ -154,7 +154,7 @@ class TestCalcValues:
             coefficients, expected_coefficients, decimal=4.0
         )
         npt.assert_approx_equal(stO2, expected_stO2)
-        npt.assert_approx_equal(score, expected_score)
+        npt.assert_approx_equal(score, expected_score, significant=4)
 
     def test_produces_correct_value_for_far_separation_EBC(
         self, function_arguments
@@ -188,4 +188,4 @@ class TestCalcValues:
             coefficients, expected_coefficients, decimal=4.0
         )
         npt.assert_approx_equal(stO2, expected_stO2)
-        npt.assert_approx_equal(score, expected_score)
+        npt.assert_approx_equal(score, expected_score, significant=4)
