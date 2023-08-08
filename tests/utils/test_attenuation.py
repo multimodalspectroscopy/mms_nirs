@@ -2,12 +2,27 @@ import numpy as np
 import numpy.testing as npt
 import pytest
 
-from mms_nirs.utils.attenuation import calc_attenuation_spectra
+from mms_nirs.utils.attenuation import (
+    calc_attenuation_slope,
+    calc_attenuation_spectra,
+)
 
 
 @pytest.fixture
 def mock_ref_spectra():
     return np.array([1, 2, 3, 4])
+
+
+@pytest.fixture
+def mock_attenuation():
+    return np.array(
+        [
+            [[2, 2, 2], [4, 4, 4]],
+            [[4, 4, 4], [8, 8, 8]],
+            [[6, 6, 6], [12, 12, 12]],
+            [[8, 8, 8], [16, 16, 16]],
+        ]
+    )
 
 
 class TestAttenuation:
@@ -33,3 +48,19 @@ class TestAttenuation:
         actual = calc_attenuation_spectra(intensities, mock_ref_spectra)
 
         npt.assert_array_almost_equal(actual, expected)
+
+
+class TestAttenuationSlope:
+    def test_attenuation_(self, mock_attenuation):
+        with pytest.raises(ValueError):
+            distances = np.array([1, 2, 3])
+            calc_attenuation_slope(mock_attenuation, distances)
+
+    def test_attenuation_slope(self, mock_attenuation):
+        distances = np.array([1, 2, 3, 4])
+
+        expected = np.array([[2.0, 2.0, 2.0], [4.0, 4.0, 4.0]])
+
+        actual = calc_attenuation_slope(mock_attenuation, distances)
+
+        npt.assert_array_almost_equal(expected, actual)
