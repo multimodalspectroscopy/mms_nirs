@@ -1,7 +1,7 @@
 import numpy.testing as npt
 import pytest
 
-from mms_nirs.utils import calc_dpf
+from mms_nirs.utils.dpf import calc_dpf
 
 
 class TestDpf:
