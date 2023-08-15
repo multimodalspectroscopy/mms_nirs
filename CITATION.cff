@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Russell-Buckland"
+  given-names: "Joshua"
+  orcid: "https://orcid.org/0000-0001-7559-1413"
+title: "My Research Software"
+version: 0.2.0
+date-released: 2023-05-09
+url: "https://github.com/multimodalspectroscopy/mms_nirs"
