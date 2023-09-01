@@ -1,6 +1,7 @@
 from typing import Optional
 
 import numpy as np
+from numpy.typing import NDArray
 
 from .derivative_fit import (
     BoundaryType,
@@ -11,7 +12,7 @@ from .derivative_fit import (
 from .fminsearchbnd import fminsearchbnd
 
 
-def smooth(a: np.ndarray, span: int) -> np.ndarray:
+def smooth(a: NDArray[np.float64], span: int) -> NDArray:
     """MATLAB Smooth function clone
 
     Args:
@@ -38,6 +39,31 @@ def calc_values(
     distance: float,
     distance_max: Optional[float] = None,
 ):
+    """Calculate parameters by fitting attenuation slope
+
+    For more detail see Chapter 8 of "A Novel Approach to Monitor Tissue Oxygen
+    Saturation with Broadband Near-Infrared Spectroscopy" - Zuzanna Kovacsova
+
+    Args:
+        slope (np.ndarray): Attenuation slope
+        extinction (np.ndarray): Matrix of extinction co-efficients for each species
+        and wavelength
+        wavelengths (np.ndarray): Wavelengths of light used
+        boundaries (np.ndarray): Boundaries for parameters. First row is start,
+        second is lower bound, third is upper bound
+        boundary_condition_type (BoundaryType): Zero or Extrapolated boundary condition
+        distance (float): Distance between source and detector. If one distance used
+        this is it. If maximal distance used, this is the minimal.
+        distance_max (Optional[float], optional): Optional maximum distance.
+        Defaults to None.
+
+    Raises:
+        RuntimeError: Error if fails to obtain co-efficients.
+
+    Returns:
+        tuple: Tuple of stO2, coefficients, residual, residual_norm,
+        sum_residual, score
+    """
     start = boundaries[0]
     LB = boundaries[1]
     UB = boundaries[2]

@@ -2,7 +2,7 @@ from enum import Enum, auto
 from typing import Optional
 
 import numpy as np
-import numpy.typing as npt
+from numpy.typing import NDArray
 
 from .model_types import ExtrapolatedBoundaryConditions, ZeroBoundaryConditions
 
@@ -51,21 +51,21 @@ def get_model(
 
 
 def derivative_fit(
-    param: npt.NDArray[np.float64],
+    param: NDArray[np.float64],
     boundary_condition_type: BoundaryType,
     quantity: QuantityType,
-    slope_diff: npt.NDArray[np.float64],
-    extinction: npt.NDArray[np.float64],
-    wavelengths: npt.NDArray[np.float64],
+    slope_diff: NDArray[np.float64],
+    extinction: NDArray[np.float64],
+    wavelengths: NDArray[np.float64],
     distance: float,
     distance_max: Optional[float] = None,
     wave_start: float = 710.0,
     wave_end: float = 900.0,
-):
+) -> np.floating:
     """Create objective function to fit derivative
 
     Args:
-        param (npt.NDArray[np.float64]): First is water fraction, second is
+        param (NDArray[np.float64]): First is water fraction, second is
         HHb, third is HbO2, fourth and fifth are the scattering coefficients
         from the exponential model; a and b resp., from mu_s = a*lambda^(-b)
         where lambda is in micrometers.
@@ -76,14 +76,14 @@ def derivative_fit(
         quantity (QuantityType): Quantity to obtain. One of [reflectance,
         attenuation, attenuation slope].
 
-        slope_diff (npt.NDArray[np.float64]): Differential of slope. See
-        BRUNO_calc for derivation
+        slope_diff (NDArray[np.float64]): Differential of slope. See
+        calc_values.py for derivation
 
-        extinction (npt.NDArray[np.float64]): Extinction co-efficients matrix,
+        extinction (NDArray[np.float64]): Extinction co-efficients matrix,
         W x 4, first column wavelength, second HHb, third HbO2, fourth the
         absorption coeff of water.
 
-        wavelengths (npt.NDArray[np.float64]): W x 1 array of wavelengths
+        wavelengths (NDArray[np.float64]): W x 1 array of wavelengths
 
         distance (float): Source-detector separation. If separation between
         detectors is negligible this is rho. If non-negligible this is the
@@ -100,10 +100,11 @@ def derivative_fit(
         on. Defaults to 900.
 
     Raises:
-        ValueError: _description_
+        ValueError: ValueError for unable to find unique start and end
+        wavelengths
 
     Returns:
-        _type_: _description_
+        np.floating: sum of least square differences
     """
     start_idx = np.argwhere(wavelengths == wave_start)
     end_idx = np.argwhere(wavelengths == wave_end)
