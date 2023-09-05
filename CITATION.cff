@@ -5,6 +5,6 @@ authors:
   given-names: "Joshua"
   orcid: "https://orcid.org/0000-0001-7559-1413"
 title: "Multimodal Spectroscopy NIRS"
-version: 0.2.0
+version: 0.2.1
 date-released: 2023-05-09
 url: "https://github.com/multimodalspectroscopy/mms_nirs"
