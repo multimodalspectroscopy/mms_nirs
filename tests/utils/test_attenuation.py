@@ -51,7 +51,7 @@ class TestAttenuation:
 
 
 class TestAttenuationSlope:
-    def test_attenuation_(self, mock_attenuation):
+    def test_attenuation_dim_error(self, mock_attenuation):
         with pytest.raises(ValueError):
             distances = np.array([1, 2, 3])
             calc_attenuation_slope(mock_attenuation, distances)

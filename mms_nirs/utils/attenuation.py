@@ -1,6 +1,6 @@
 import numpy as np
+from numpy.linalg import lstsq
 from numpy.typing import NDArray
-from scipy.stats import linregress
 
 
 def calc_attenuation_spectra(
@@ -51,9 +51,11 @@ def calc_attenuation_slope(
                 Got {len(source_detector_distances)} and {k} respectively."
         )
 
+    # Solve for slope of form y = mx + c = Ap
     def get_slope(attenuations: NDArray, distances: NDArray):
-        result = linregress(distances, attenuations)
-        return result.slope  # type: ignore
+        A = np.vstack([distances, np.ones(len(distances))]).T
+        m, _ = lstsq(A, attenuations, rcond=None)[0]
+        return m  # type: ignore
 
     return np.apply_along_axis(
         get_slope, 0, attenuation_spectra, source_detector_distances
