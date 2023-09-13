@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mms-nirs"
-version = "0.2.1"
+version = "0.3.0"
 description = "Algorithms used in the multimodal spectroscopy group to process NIRS data"
 authors = ["Josh Buckland, <joshua.russell-buckland@ucl.ac.uk>"]
 license = "MIT"
