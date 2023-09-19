@@ -46,14 +46,16 @@ def calc_values(
 
     Args:
         slope (np.ndarray): Attenuation slope
-        extinction (np.ndarray): Matrix of extinction co-efficients for each species
-        and wavelength
+        extinction (np.ndarray): Matrix of extinction co-efficients for each
+        species and wavelength
         wavelengths (np.ndarray): Wavelengths of light used
         boundaries (np.ndarray): Boundaries for parameters. First row is start,
         second is lower bound, third is upper bound
-        boundary_condition_type (BoundaryType): Zero or Extrapolated boundary condition
-        distance (float): Distance between source and detector. If one distance used
-        this is it. If maximal distance used, this is the minimal.
+        boundary_condition_type (BoundaryType): Zero or Extrapolated boundary
+        condition
+        distance (float): Distance between source and detector. If one
+        distance used this is it. If maximal distance used, this is the
+        minimal.
         distance_max (Optional[float], optional): Optional maximum distance.
         Defaults to None.
 
@@ -116,7 +118,7 @@ def calc_values(
         boundary_condition_type, QuantityType.ATTENUATION_SLOPE, distance_max
     )
     if distance_max:
-        model_result = model_function(distance_max, distance, mua, mus)
+        model_result = model_function(mus, mua, distance, distance_max)
     else:
         model_result = model_function(mua, mus, distance)
 
