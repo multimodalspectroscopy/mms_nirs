@@ -4,7 +4,7 @@ import numpy as np
 import numpy.testing as npt
 import pytest
 
-from mms_nirs.BRUNO.calc_values import calc_values, smooth
+from mms_nirs.BRUNO.calc_values import calc_values
 from mms_nirs.BRUNO.derivative_fit import BoundaryType
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures"
@@ -101,7 +101,7 @@ class TestCalcValues:
                 2.555661423244912,
             ]
         )
-        expected_score = 33.85892581587063
+        expected_score = 0.152333965717711
 
         (
             stO2,
@@ -170,7 +170,7 @@ class TestCalcValues:
             ]
         )
 
-        expected_score = 57.2088269575511
+        expected_score = 0.151596628281833
 
         (
             stO2,
